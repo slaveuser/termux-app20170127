@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    dependencies {
+        compile 'com.android.support:support-annotations:25.1.0'
+        compile "com.android.support:support-v4:25.1.0"
+    }
+
+    defaultConfig {
+        applicationId "com.termux"
+        minSdkVersion 21
+        targetSdkVersion 25
+        versionCode 46
+        versionName "0.46"
+
+        externalNativeBuild {
+            ndkBuild {
+                cFlags "-std=c11", "-Wall", "-Wextra", "-Werror", "-Os", "-fno-stack-protector", "-Wl,--gc-sections"
+            }
+        }
+
+        ndk {
+            abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path "src/main/jni/Android.mk"
+        }
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
